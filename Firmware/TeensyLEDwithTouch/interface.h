@@ -37,15 +37,12 @@ void interfaceCyclic()
 
       //if we get a message for the last pixel, trigger a sending of all touch data
       if((xCoord == (maxCol-1))&&(yCoord==(maxRow-1))){
-      //if we get a message for the first pixel, trigger a sending of all touch data
-//      if((xCoord == 0)&&(yCoord==0)) {
-      //if we get a message for the first pixel of any row, trigger a sending of all touch data
-//      if(xCoord == 0){
         //pack the touch bits and ship them out
         outputCount = 0;
         for(int row=0;row<maxRow;row++){
           for(int col=0;col<maxCol;col+=5){
-            outputBuffer[outputCount] = touchGet5Bits(col ,row);
+//            Disabled until dynamic touch works in testing mode
+//            outputBuffer[outputCount] = touchGet5Bits(col ,row);
             outputCount++;
           }
         }
