@@ -14,7 +14,7 @@ void setup() {
     }
   }
   size(751,751);
-  frameRate(5);
+  frameRate(30);
 }
 
 //define Pixel class
@@ -127,13 +127,21 @@ void draw() {
   for (int j = 0; j<allThePixels.length;j++){
     for (int i = 0; i<allThePixels.length;i++){
       if (allThePixels[i][j].touch)
-        allThePixels[i][j].col = color(0,random(200)+50,0);
+        allThePixels[i][j].col = color(random(25)+150,random(25)+150,random(25)+150);
       else
-        allThePixels[i][j].col = color(0,0,random(55)+20);
+        allThePixels[i][j].col = color(0,0,0);
     }
   }
   
   
+  /*
+  //Max white
+  for (int j = 0; j<allThePixels.length;j++){
+    for (int i = 0; i<allThePixels.length;i++){
+      allThePixels[i][j].col = color(254,254,254);
+    }
+  }
+  */
   
   //println(allThePixels[9][9].xPos);
   //println(allThePixels.length);

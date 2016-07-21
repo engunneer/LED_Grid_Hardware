@@ -3,14 +3,6 @@ import processing.serial.*;
 //gloabl variables
 Hardware hardware;
 
-byte[] rawDataBuffer;
-
-boolean useInlineRead = false;
-//serialEvent Method for catching things
-//void serialEvent(Serial p) {
-//  rawDataBuffer = p.read();
-//}
-
 class Hardware{
 
   Serial myPort;
@@ -76,13 +68,13 @@ class Hardware{
     myPort.write(byteData);
 
     //read all the data
-    if ((useInlineRead)&&(myPort.available() > 45)) {
+    if (myPort.available() > 45) {
       //now get any touch data that has shown up and store it in the pixelData
-      byte[] inBuffer = new byte[100];
+      byte[] inBuffer = new byte[1000];
 
-      final boolean printStuff = true;
+      final boolean printStuff = false; //use for debug
       
-      int returned = myPort.readBytesUntil(-1,inBuffer) - 1;
+      int returned = myPort.readBytes(inBuffer);//readBytesUntil(-1,inBuffer) - 1;
       
       if(printStuff) println(returned + " " + counter++);
 
@@ -99,8 +91,6 @@ class Hardware{
     //return pixelData; //no need to return, as it's passed byref
   }
   
-
-
   
   void ConvertBytes(Pixel[][] pixelData, byte[] rawTouchBytes, int buflength){
 
