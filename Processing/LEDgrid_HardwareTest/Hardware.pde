@@ -2,6 +2,7 @@ import processing.serial.*;
 
 //gloabl variables
 Hardware hardware;
+final int MAX_TOUCH  = 16;
 
 class Hardware{
 
@@ -68,7 +69,7 @@ class Hardware{
     myPort.write(byteData);
 
     //read all the data
-    if (myPort.available() > 45) {
+    if (myPort.available() > 225) {
       //now get any touch data that has shown up and store it in the pixelData
       byte[] inBuffer = new byte[1000];
 
@@ -79,7 +80,7 @@ class Hardware{
       if(printStuff) println(returned + " " + counter++);
 
       if (returned > 0) {
-        if(returned > 45) returned = 45;
+        if(returned > 225) returned = 225;
         ConvertBytes(pixelData, inBuffer, returned);
       }
       else
@@ -94,22 +95,20 @@ class Hardware{
   
   void ConvertBytes(Pixel[][] pixelData, byte[] rawTouchBytes, int buflength){
 
-          for(int i=0;i<buflength;i++){
-          //if(printStuff) print(inBuffer[i] + " "); //display raw buffer data
-          
-          //filter out the 0x80
-          rawTouchBytes[i] &= 0x1F;
-          
-          //calculate the location of this data from i
-          int thisDataStartX = (i%3)*5;
-          int thisDataStartY = i/3;
-                    
-          for(int touchi = 0;touchi<5;touchi++){
-            boolean thisBit = (rawTouchBytes[i] & (0x01<<touchi)) > 0;
-            pixelData[thisDataStartX+touchi][thisDataStartY].touch = thisBit;
-            //if(printStuff) println("i:" + i + " X:" + (thisDataStartX+touchi) + " Y:" + thisDataStartY + " = " + thisBit);
-          }
-        }
+    for(int i=0;i<buflength;i++){
+      //if(printStuff) print(inBuffer[i] + " "); //display raw buffer data
+      
+      //filter out the 0x80
+      rawTouchBytes[i] &= 0x1F;
+      
+      //calculate the location of this data from i
+      int thisDataX = (i%15);
+      int thisDataY = i/15;
+                
+      pixelData[thisDataX][thisDataY].touch = (rawTouchBytes[i])>0;
+      pixelData[thisDataX][thisDataY].touchLevel = rawTouchBytes[i];
+      //if(printStuff) println("i:" + i + " X:" + (thisDataStartX+touchi) + " Y:" + thisDataStartY + " = " + thisBit);
+    }
     //return pixelData; //no need to return, as it's passed byref
   }
   

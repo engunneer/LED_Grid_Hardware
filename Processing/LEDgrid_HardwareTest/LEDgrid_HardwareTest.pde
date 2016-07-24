@@ -10,7 +10,7 @@ void setup() {
   for (int j = 0; j<allThePixels.length;j++){
     for (int i=0; i<allThePixels.length;i++){
       //allThePixels[0]=pixelStorage;
-      allThePixels[i][j]= new Pixel(50*i,50*j,color(0,10,0),false);
+      allThePixels[i][j]= new Pixel(50*i,50*j,color(0,10,0),false,0);
     }
   }
   size(751,751);
@@ -24,6 +24,7 @@ class Pixel{
   int xPos;
   int yPos;
   boolean touch;
+  int touchLevel;
   
   //create pixel constructor function to make pixel objects from input data 
   Pixel(){
@@ -31,41 +32,33 @@ class Pixel{
     yPos = 100;//y;
     col = 50;//c;
     touch = false;//t;
+    touchLevel = 0;
     //println(xPos);
   }
     
   //create pixel constructor function to make pixel objects from input data 
-  Pixel(int x, int y, color c, boolean t){
+  Pixel(int x, int y, color c, boolean t, int l){
     xPos = x;
     yPos = y;
     col = c;
     touch = t;
+    touchLevel = l;
     //println(xPos);
   }
 
 } 
 
+//DataType [] ArrayName = new DataType[length];
 //make a global array of pixels
 Pixel [][] allThePixels = new Pixel[15][15];
 
 //code runs each time the screen is refreshed
 void draw() {
-  //DataType [] ArrayName = new DataType[length];
-  //declare pixelStorage array of class Pixel
-  Pixel pixelStorage;
-  
-  int x=20;
-  int y=15;
-  color c=250;
-  boolean t=true;
-  //pixelStorage = new Pixel();
     
   /*
   //fill each pixel with a random color
-  //allThePixels = new Pixel[10][10];
   for (int j = 0; j<allThePixels.length;j++){
     for (int i=0; i<allThePixels.length;i++){
-      //allThePixels[0]=pixelStorage;
       allThePixels[i][j].col= color(random(255),random(255),random(255));
     }
   }
@@ -76,10 +69,8 @@ void draw() {
   //i alone==> gradient along x; j alone==> along y; i+j==>diagonal;i*j hyperbolic fade from x and y axes
   //i^2+j^2, i^2*j^2 also give interesting results.
   //All patterns centered at the origin
-  //allThePixels = new Pixel[10][10];
   for (int j = 0; j<allThePixels.length;j++){
     for (int i=0; i<allThePixels.length;i++){
-      //allThePixels[0]=pixelStorage;
       allThePixels[i][j].col= color(50+20*(i+j),0,0);
     }
   }
@@ -91,7 +82,6 @@ void draw() {
   //allThePixels = new Pixel[10][10];
   for (int j = 0; j<allThePixels.length;j++){
     for (int i=0; i<allThePixels.length;i++){
-      //allThePixels[0]=pixelStorage;
       if ((i == allThePixels.length/2 || i == allThePixels.length/2-1) && (j == allThePixels.length/2 || j == allThePixels.length/2-1)){
         allThePixels[i][j].col= color(125+20*(i),0,0);
       }
@@ -105,10 +95,8 @@ void draw() {
   
   /*
    //color only the center 4 pixels in the array (note:will still light up 4 pixels in an odd array, but they'll be off-center)
-  //allThePixels = new Pixel[10][10];
   for (int j = 0; j<allThePixels.length;j++){
     for (int i=0; i<allThePixels.length;i++){
-      //allThePixels[0]=pixelStorage;
       if ((i == allThePixels.length/2 || i == allThePixels.length/2-1) && (j == allThePixels.length/2 || j == allThePixels.length/2-1)){
         allThePixels[i][j].col= color(125+20*(i),0,0);
       }
@@ -127,7 +115,7 @@ void draw() {
   for (int j = 0; j<allThePixels.length;j++){
     for (int i = 0; i<allThePixels.length;i++){
       if (allThePixels[i][j].touch)
-        allThePixels[i][j].col = color(random(25)+150,random(25)+150,random(25)+150);
+        allThePixels[i][j].col = color(random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15,random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15,random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15);
       else
         allThePixels[i][j].col = color(0,0,0);
     }

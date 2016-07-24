@@ -6,7 +6,7 @@ const uint8_t matrixWidth = 15;  //total pixels
 const uint8_t matrixHeight = 15; //total pixels
 #define NUMBOARDS      9  //32 bits to hold 25 bits of data
 
-#define TESTING 1
+#define TESTING 0
 
 
 void setup() {

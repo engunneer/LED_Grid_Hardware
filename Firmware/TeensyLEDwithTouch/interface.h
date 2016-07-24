@@ -3,7 +3,7 @@
 #define maxCol 15
 
 #define bufferLength 10
-#define bufferLengthOut 50 
+#define bufferLengthOut 230 
 
 #define LED 13
 bool LEDstate = false;
@@ -40,9 +40,8 @@ void interfaceCyclic()
         //pack the touch bits and ship them out
         outputCount = 0;
         for(int row=0;row<maxRow;row++){
-          for(int col=0;col<maxCol;col+=5){
-//            Disabled until dynamic touch works in testing mode
-//            outputBuffer[outputCount] = touchGet5Bits(col ,row);
+          for(int col=0;col<maxCol;col++){
+            outputBuffer[outputCount] = touchGetLevel(col ,row) || 0x80;
             outputCount++;
           }
         }
