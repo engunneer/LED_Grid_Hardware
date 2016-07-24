@@ -10,7 +10,8 @@
 #define PULSE_WIDTH_USEC   1
 
 /* Array of voltages to use for dynamic sensing 1240 counts per volt*/
-const int senseVoltages[] = { 0,200,400,600,800,1000,1200,1400 };
+const int senseVoltages[] = {0, 350, 400, 500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500, 1600, 1700};
+#define NUM_VOLTAGE_STEPS 16
 int currentVoltageStep;
 uint8_t touchLevel[(NUMBOARDS * NUMCELLSPERBOARD)+1];
 
@@ -84,11 +85,11 @@ void touchCyclic() {
     }
   }
 
-  for (currentVoltageStep=0;currentVoltageStep<8;currentVoltageStep++)
+  for (currentVoltageStep=0;currentVoltageStep<NUM_VOLTAGE_STEPS;currentVoltageStep++)
   {
     //set voltage and delay to settle
     analogWrite(A14, senseVoltages[currentVoltageStep]);
-    delayMicroseconds(PULSE_WIDTH_USEC*10);
+    delayMicroseconds(PULSE_WIDTH_USEC*8);
     
     //start the clock HIGH
     digitalWriteFast(T_CLK, HIGH);

@@ -32,25 +32,49 @@ void loop()
             displaySetPixel(i,j,0x00,0x00,0x00);
             break;
           case 1:
-            displaySetPixel(i,j,0xFF,0x00,0x00);
+            displaySetPixel(i,j,0xdd,0xdd,0xdd);
             break;
           case 2:
-            displaySetPixel(i,j,0xFF,0x54,0x00);
+            displaySetPixel(i,j,0xdd,0x3f,0x00);
             break;
           case 3:
-            displaySetPixel(i,j,0xFF,0xAA,0x00);
+            displaySetPixel(i,j,0xdd,0x7e,0x00);
             break;
           case 4:
-            displaySetPixel(i,j,0xFF,0xFF,0x00);
+            displaySetPixel(i,j,0xdd,0xbd,0x00);
             break;
           case 5:
-            displaySetPixel(i,j,0xAA,0xFF,0x00);
+            displaySetPixel(i,j,0xbd,0xdd,0x00);
             break;
           case 6:
-            displaySetPixel(i,j,0x54,0xFF,0x00);
+            displaySetPixel(i,j,0x7e,0xdd,0x00);
             break;
           case 7:
-            displaySetPixel(i,j,0x00,0xFF,0x00);
+            displaySetPixel(i,j,0x3f,0xdd,0x00);
+            break;
+          case 8:
+            displaySetPixel(i,j,0x00,0xdd,0x00);
+            break;
+          case 9:
+            displaySetPixel(i,j,0x00,0xdd,0x3f);
+            break;
+          case 10:
+            displaySetPixel(i,j,0x00,0xdd,0x7e);
+            break;
+          case 11:
+            displaySetPixel(i,j,0x00,0xdd,0xbd);
+            break;
+          case 12:
+            displaySetPixel(i,j,0x00,0xbd,0xdd);
+            break;
+          case 13:
+            displaySetPixel(i,j,0x00,0x7e,0xdd);
+            break;
+          case 14:
+            displaySetPixel(i,j,0x00,0x3f,0xdd);
+            break;
+          case 15:
+            displaySetPixel(i,j,0x00,0x00,0xdd);
             break;
         }
       }
