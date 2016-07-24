@@ -111,13 +111,21 @@ void draw() {
   */
   
   
-  //turn on any pixel that is touched with a random color (requires hardware)
+  //turn on any pixel that is touched with a color (requires hardware)
   for (int j = 0; j<allThePixels.length;j++){
     for (int i = 0; i<allThePixels.length;i++){
-      if (allThePixels[i][j].touch)
-        allThePixels[i][j].col = color(random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15,random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15,random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15);
-      else
+      if (allThePixels[i][j].touchLevel > 12)
+        allThePixels[i][j].touchLevel = 0;
+      
+      if (allThePixels[i][j].touchLevel == 0)
         allThePixels[i][j].col = color(0,0,0);
+      else
+        allThePixels[i][j].col = color(60,60,60);
+
+      //if (allThePixels[i][j].touch)
+      //  allThePixels[i][j].col = color(random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15,random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15,random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15);
+      //else
+      //  allThePixels[i][j].col = color(0,0,0);
     }
   }
   
