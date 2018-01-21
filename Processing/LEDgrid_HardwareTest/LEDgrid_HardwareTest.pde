@@ -3,8 +3,8 @@
 void setup() {
   hardware = new Hardware(15,15);  // how many columns and rows there actually are.
   hardware.printPorts(); //comment this line once you know which port you need
-  hardware.init(this, 1); //which index to use from the printed port list.
-  hardware.setBrightness(0.5);
+  hardware.init(this, 0); //which index to use from the printed port list.
+  hardware.setBrightness(1);
   
   //initialize the global pixel array
   for (int j = 0; j<allThePixels.length;j++){
@@ -55,14 +55,12 @@ Pixel [][] allThePixels = new Pixel[15][15];
 //code runs each time the screen is refreshed
 void draw() {
     
-  /*
   //fill each pixel with a random color
   for (int j = 0; j<allThePixels.length;j++){
     for (int i=0; i<allThePixels.length;i++){
       allThePixels[i][j].col= color(random(255),random(255),random(255));
     }
   }
-  */
   
   /*
   //fill pixels with a slowly-shifting red gradient (linear, direction depends on i/j combination: 
@@ -110,7 +108,7 @@ void draw() {
   }
   */
   
-  
+/*  
   //turn on any pixel that is touched with a color (requires hardware)
   for (int j = 0; j<allThePixels.length;j++){
     for (int i = 0; i<allThePixels.length;i++){
@@ -128,7 +126,7 @@ void draw() {
       //  allThePixels[i][j].col = color(0,0,0);
     }
   }
-  
+  */
   
   /*
   //Max white
@@ -142,6 +140,7 @@ void draw() {
   //println(allThePixels[9][9].xPos);
   //println(allThePixels.length);
    
+// Locally display the state of allThePixels
   //print the contents of the allThePixels array to the screen
   for (int k=0; k<allThePixels.length;k++){
     for (int l=0; l<allThePixels.length;l++){

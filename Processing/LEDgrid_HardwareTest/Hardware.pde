@@ -10,7 +10,6 @@ class Hardware{
   int delayTime = 1;
   byte [] byteData;
   int HWCols, HWRows, counter;
-  float Brightness = 0.2;
  
   Hardware(int hwCols,int hwRows){
     HWCols = hwCols;
@@ -25,9 +24,10 @@ class Hardware{
   void init(PApplet parent, int portNumber){
   
     // if portNumber is possible
-    if (Serial.list().length > portNumber) {
+    if (Serial.list().length >= portNumber) {
       // Open the port you are using at the rate you want:
       myPort = new Serial(parent, Serial.list()[portNumber], 230400);
+      println("Opened serial port " + Serial.list()[portNumber]);
     }
     else
         println("requested serial port not available. cycle USB plug and restart sketch.");
@@ -36,7 +36,11 @@ class Hardware{
   
   //set scalar value from 0 to 1 to dim overall display
   void setBrightness (float brightness){
-    Brightness = brightness;
+    byte brightbyte = (byte)(brightness  * 254);
+    byteData = new byte[]{};
+        byteData = concat(byteData, new byte[]{(byte)100,(byte)0,(byte)brightbyte,(byte)0,(byte)0,(byte)0,(byte)255});
+    //write all the data!
+    myPort.write(byteData);
   }
   
   //update the actual hardware, if connected
@@ -58,12 +62,17 @@ class Hardware{
         
         //prevent sending 255 on any color bit - the human eye won't notice.
         //also apply brightness (linearly)
+        /*  Brightness now handled in hardware!
         r = (int)(Brightness * min(r,254));
         g = (int)(Brightness * min(g,254));
         b = (int)(Brightness * min(b,254));
-        byteData = concat(byteData, new byte[]{(byte)i,(byte)j,(byte)r,(byte)g,(byte)b,(byte)255});
+        */
+        r = (int)(min(r,254));
+        g = (int)(min(g,254));
+        b = (int)(min(b,254));
+        byteData = concat(byteData, new byte[]{(byte)i,(byte)j,(byte)r,(byte)g,(byte)b,(byte)0,(byte)255});
         
-      } //<>//
+      }
     }
     //write all the data!
     myPort.write(byteData);
