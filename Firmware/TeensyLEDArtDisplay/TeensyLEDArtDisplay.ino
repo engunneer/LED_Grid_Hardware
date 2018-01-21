@@ -17,8 +17,8 @@ void loop()
   uint32_t ms = millis();
     int32_t yHueDelta32 = ((int32_t)cos16( ms * 27 ) * (350 / kMatrixWidth));
     int32_t xHueDelta32 = ((int32_t)cos16( ms * 39 ) * (310 / kMatrixHeight));
-    DrawOneFrame( ms / 65536, yHueDelta32 / 32768, xHueDelta32 / 32768);
-    FastLED.show();
+    displayDrawOneFrame( ms / 65536, yHueDelta32 / 32768, xHueDelta32 / 32768);
+    displayShow();
 
 /*    for (int i=0;i<matrixWidth;i++){
       for (int j=0;j<matrixHeight;j++){

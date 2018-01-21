@@ -104,7 +104,7 @@ void displaySetup(){
 }
 
 
-void DrawOneFrame( byte startHue8, int8_t yHueDelta8, int8_t xHueDelta8)
+void displayDrawOneFrame( byte startHue8, int8_t yHueDelta8, int8_t xHueDelta8)
 {
   byte lineStartHue = startHue8;
   for( byte y = 0; y < kMatrixHeight; y++) {
