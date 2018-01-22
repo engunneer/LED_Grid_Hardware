@@ -4,7 +4,7 @@ void setup() {
   hardware = new Hardware(15,15);  // how many columns and rows there actually are.
   hardware.printPorts(); //comment this line once you know which port you need
   hardware.init(this, 0); //which index to use from the printed port list.
-  hardware.setBrightness(1);
+  hardware.setBrightness(0.25);
   
   //initialize the global pixel array
   for (int j = 0; j<allThePixels.length;j++){
@@ -17,36 +17,6 @@ void setup() {
   frameRate(30);
 }
 
-//define Pixel class
-class Pixel{
-  //declare variables to store desired object properties
-  color col;
-  int xPos;
-  int yPos;
-  boolean touch;
-  int touchLevel;
-  
-  //create pixel constructor function to make pixel objects from input data 
-  Pixel(){
-    xPos = 20;//x;
-    yPos = 100;//y;
-    col = 50;//c;
-    touch = false;//t;
-    touchLevel = 0;
-    //println(xPos);
-  }
-    
-  //create pixel constructor function to make pixel objects from input data 
-  Pixel(int x, int y, color c, boolean t, int l){
-    xPos = x;
-    yPos = y;
-    col = c;
-    touch = t;
-    touchLevel = l;
-    //println(xPos);
-  }
-
-} 
 
 //DataType [] ArrayName = new DataType[length];
 //make a global array of pixels
@@ -108,26 +78,7 @@ void draw() {
   }
   */
   
-/*  
-  //turn on any pixel that is touched with a color (requires hardware)
-  for (int j = 0; j<allThePixels.length;j++){
-    for (int i = 0; i<allThePixels.length;i++){
-      if (allThePixels[i][j].touchLevel > 12)
-        allThePixels[i][j].touchLevel = 0;
-      
-      if (allThePixels[i][j].touchLevel == 0)
-        allThePixels[i][j].col = color(0,0,0);
-      else
-        allThePixels[i][j].col = color(60,60,60);
 
-      //if (allThePixels[i][j].touch)
-      //  allThePixels[i][j].col = color(random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15,random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15,random(MAX_TOUCH - allThePixels[i][j].touchLevel)*15);
-      //else
-      //  allThePixels[i][j].col = color(0,0,0);
-    }
-  }
-  */
-  
   /*
   //Max white
   for (int j = 0; j<allThePixels.length;j++){
