@@ -19,6 +19,8 @@ void setup() {
 
 void loop()
 {
+
+  //TODO: idle display if no connection
   #if TESTING
 
     for (int i=0;i<matrixWidth;i++){
