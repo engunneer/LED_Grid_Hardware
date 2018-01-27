@@ -6,9 +6,13 @@ void settings() {
 
 //code runs once, on startup
 void setup() {
+  boolean dosimulation = true;
+  println(System.getProperty("os.name"));
+  if (System.getProperty("os.name").equals("Linux")) dosimulation = false;
+  
   hardware = new Hardware(15,15);  // how many columns and rows there actually are.
-  int numports = hardware.printPorts(); //comment this line once you know which port you need
-  if (numports>0) {
+  if (!dosimulation) {
+    hardware.printPorts(); //comment this line once you know which port you need
     hardware.init(this, 0); //which index to use from the printed port list.
     hardware.setBrightness(0.25);
   } else {
@@ -21,26 +25,38 @@ void setup() {
       allThePixels[i][j]= new Pixel(i,j,color(0,10,0),false,0);
     }
   }
-  frameRate(10);
+  frameRate(15);
 }
 
 
 //DataType [] ArrayName = new DataType[length];
 //make a global array of pixels
 Pixel [][] allThePixels = new Pixel[15][15];
+long millisAtLastSecond;
+int lastSecond;
 
 //code runs each time the screen is refreshed
 void draw() {
-  //all black
+  
+  
+  
+  if (second() != lastSecond)
+    millisAtLastSecond = millis();
+  lastSecond = second();
+  
+  long milliseconds = millis() -  millisAtLastSecond;
+  
+  float second = second() + (milliseconds/1000.0);
+  float minute = minute() + (second/60.0);
+  float hour = hour() + (minute/60.0);
+
+  //background Color
   for (int j = 0; j<allThePixels.length;j++){
     for (int i = 0; i<allThePixels.length;i++){
       allThePixels[i][j].col = color(0,0,0);
     }
   }
-  
-  float second = second();
-  float minute = minute() + (second/60.0);
-  float hour = hour() + (minute/60.0);
+
 
   int center=7;
   float  step = 0.2;
@@ -51,7 +67,7 @@ void draw() {
   int hy = (int)(radius*sin(hangle))+center;
   hx=constrain(hx,0,14);
   hy=constrain(hy,0,14);
-  allThePixels[hx][hy].col = color(255*(8-radius)/8,0,0);
+  allThePixels[hx][hy].col = color(255*(8-radius)/8,green(allThePixels[hx][hy].col),blue(allThePixels[hx][hy].col));
   }
   //minute hand
   for(float radius=0; radius <8; radius += step){
@@ -60,7 +76,7 @@ void draw() {
   int my = (int)(radius*sin(mangle))+center;
   mx=constrain(mx,0,14);
   my=constrain(my,0,14);
-  allThePixels[mx][my].col = color(red(allThePixels[mx][my].col),255*(9-radius)/9,0);
+  allThePixels[mx][my].col = color(red(allThePixels[mx][my].col),255*(9-radius)/9,blue(allThePixels[mx][my].col));
   }
   //second hand
   for(float radius=0; radius <8; radius += step){
@@ -72,6 +88,14 @@ void draw() {
   allThePixels[sx][sy].col = color(red(allThePixels[sx][sy].col),green(allThePixels[sx][sy].col),255*(9-radius)/9);
   }
 
+
+  if (hour<=4.5)     hardware.setBrightness(0.01);
+  else if (hour<=5)     hardware.setBrightness(0.10);
+  else if (hour<=7)     hardware.setBrightness(0.15);
+  else if (hour>=23)     hardware.setBrightness(0.01);
+  else if (hour>=22)     hardware.setBrightness(0.05);
+  else if (hour>=20)     hardware.setBrightness(0.15);
+  else hardware.setBrightness(0.25);
 
   displayPixels(allThePixels);
   //send the status of the allThePixels array to the LED hardware, if present

@@ -30,7 +30,7 @@ class Hardware{
     // if portNumber is possible
     if (Serial.list().length >= portNumber) {
       // Open the port you are using at the rate you want:
-      myPort = new Serial(parent, Serial.list()[portNumber], 230400);
+      myPort = new Serial(parent, Serial.list()[portNumber], 921600);
       println("Opened serial port " + Serial.list()[portNumber]);
     }
     else
