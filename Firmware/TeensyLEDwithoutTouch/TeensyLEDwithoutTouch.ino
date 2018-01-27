@@ -20,7 +20,6 @@ void setup() {
 void loop()
 {
 
-  //TODO: idle display if no connection
   #if TESTING
 
     for (int i=0;i<matrixWidth;i++){
@@ -80,6 +79,9 @@ void loop()
     //Serial.println(touchXY(14,14));
   #else
     interfaceCyclic();
+    if (interfaceIsIdle()){
+      displayIdle();
+    }
   #endif
 
   displayShow();

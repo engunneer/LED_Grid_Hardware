@@ -14,9 +14,15 @@ byte inputBuffer[bufferLength];
 byte outputBuffer[bufferLengthOut];
 int inputCount = 0;
 int outputCount = 0;
+int secondsSinceConnection = 0;
+long millisAtLastSerial;
+
+boolean interfaceIsIdle(){
+  return (secondsSinceConnection > 3);
+}
 
 void interfaceSetup(){  // initialize serial:
-  Serial.begin(230400);
+  Serial.begin(921600);
   Serial.setTimeout(1); 
 
   pinMode(LED, OUTPUT);
@@ -25,7 +31,9 @@ void interfaceSetup(){  // initialize serial:
   
 void interfaceCyclic()
 {
+  
   while (Serial.available()) {
+  millisAtLastSerial = millis();
   byte c = Serial.read();
     if ((c == 255) && (inputCount>=BYTESPERPIXEL)) {
       //EOM
@@ -56,5 +64,5 @@ void interfaceCyclic()
     }
   }
   
-  
+  secondsSinceConnection = (millis() - millisAtLastSerial) / 1000;
 }

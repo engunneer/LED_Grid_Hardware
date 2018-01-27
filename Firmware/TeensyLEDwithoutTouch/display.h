@@ -81,6 +81,17 @@ void displayTest(uint8_t r, uint8_t g, uint8_t b){
   delay(100);
 }
 
+void displayIdle(){
+  for (int i=0;i<kMatrixWidth;i++)
+    for (int j=0;j<kMatrixHeight;j++)
+    {      
+      int hue = (int)(millis()>>8);
+      displaySetPixelHSV(i,j, hue, 192, 128);
+    }
+    displayShow();
+}
+
+
 void displaySetBrightness(int brightnessValue)
 {
   FastLED.setBrightness( brightnessValue );
