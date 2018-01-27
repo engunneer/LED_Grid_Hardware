@@ -82,6 +82,9 @@ void loop()
     //Serial.println(touchXY(14,14));
   #else
     interfaceCyclic();
+    if (interfaceIsIdle()){
+      displayIdle();
+    }
   #endif
 
   displayShow();

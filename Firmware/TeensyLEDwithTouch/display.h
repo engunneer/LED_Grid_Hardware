@@ -5,7 +5,7 @@
 #define COLOR_ORDER GRB
 #define CHIPSET     WS2812
 
-#define BRIGHTNESS 32
+#define DEFAULT_BRIGHTNESS 128
 
 // Params for width and height
 const uint8_t kMatrixWidth = 15;  //total pixels
@@ -66,6 +66,12 @@ void displaySetPixel(int16_t raw_index, uint8_t r, uint8_t g, uint8_t b){
 void displaySetPixel(int16_t i,int16_t j, uint8_t r, uint8_t g, uint8_t b){
   leds[ displayXYsafe( i, j ) ] = CRGB( r, g, b);
   }
+void displaySetPixelHSV(int16_t raw_index, uint8_t h, uint8_t s, uint8_t v){
+  leds[ raw_index ] = CHSV( h, s, v);
+  }
+void displaySetPixelHSV(int16_t i,int16_t j, uint8_t h, uint8_t s, uint8_t v){
+  leds[ displayXYsafe( i, j ) ] = CHSV( h, s, v);
+  }
 
 void displayTest(uint8_t r, uint8_t g, uint8_t b){
   for (int i=0;i<kMatrixWidth;i++)
@@ -75,9 +81,25 @@ void displayTest(uint8_t r, uint8_t g, uint8_t b){
   delay(100);
 }
 
+void displayIdle(){
+  for (int i=0;i<kMatrixWidth;i++)
+    for (int j=0;j<kMatrixHeight;j++)
+    {      
+      int hue = (int)(millis()>>8);
+      displaySetPixelHSV(i,j, hue, 192, 128);
+    }
+    displayShow();
+}
+
+
+void displaySetBrightness(int brightnessValue)
+{
+  FastLED.setBrightness( brightnessValue );
+}
+
 void displaySetup(){
   FastLED.addLeds<CHIPSET, LED_PIN, COLOR_ORDER>(leds, NUM_LEDS).setCorrection(TypicalSMD5050);
-  FastLED.setBrightness( BRIGHTNESS );
+  displaySetBrightness( DEFAULT_BRIGHTNESS );
 
   displayTest(209,0,0);
   displayTest(255,102, 34);

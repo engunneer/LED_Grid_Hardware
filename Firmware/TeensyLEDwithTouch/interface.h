@@ -5,6 +5,7 @@
 #define bufferLength 10
 #define bufferLengthOut 230 
 
+#define BYTESPERPIXEL 6
 #define LED 13
 bool LEDstate = false;
 
@@ -12,9 +13,15 @@ byte inputBuffer[bufferLength];
 byte outputBuffer[bufferLengthOut];
 int inputCount = 0;
 int outputCount = 0;
+int secondsSinceConnection = 0;
+long millisAtLastSerial;
+
+boolean interfaceIsIdle(){
+  return (secondsSinceConnection > 3);
+}
 
 void interfaceSetup(){  // initialize serial:
-  Serial.begin(230400);
+  Serial.begin(921600);
   Serial.setTimeout(1); 
 
   pinMode(LED, OUTPUT);
@@ -23,16 +30,31 @@ void interfaceSetup(){  // initialize serial:
   
 void interfaceCyclic()
 {
+  
   while (Serial.available()) {
+  millisAtLastSerial = millis();
   byte c = Serial.read();
-    if ((c == 255) && (inputCount>=5)) {
+    if ((c == 255) && (inputCount>=BYTESPERPIXEL)) {
       //EOM
       byte xCoord = inputBuffer[0]; //row
       byte yCoord = inputBuffer[1]; //col
-      byte redValue = inputBuffer[2];
-      byte greenValue = inputBuffer[3];
-      byte blueValue = inputBuffer[4];
-      displaySetPixel(xCoord, yCoord, redValue, greenValue, blueValue);
+      byte value1 = inputBuffer[2];
+      byte value2 = inputBuffer[3];
+      byte value3 = inputBuffer[4];
+      byte colorMode = inputBuffer[5];
+      if ((xCoord < maxCol) && (yCoord < maxRow))
+      {
+        if (colorMode == 0)
+          displaySetPixel(xCoord, yCoord, value1, value2, value3);
+        else if (colorMode == 1)
+          displaySetPixelHSV(xCoord, yCoord, value1, value2, value3);
+      }
+      else
+      {
+        //special commands
+        if (xCoord == 100)
+          displaySetBrightness(value1);
+      }
       inputCount = 0;
 
       //if we get a message for the last pixel, trigger a sending of all touch data
@@ -52,16 +74,11 @@ void interfaceCyclic()
         digitalWrite(LED, LEDstate);
       }
 
-      //as a response, send the touch data back for this pixel
-//      Serial.write(xCoord);
-//      Serial.write(yCoord);
-//      Serial.write(touchGetBit(xCoord,yCoord));
-//      Serial.write(120);
     } else {
       inputBuffer[inputCount] = c;
       inputCount++;
     }
   }
   
-  
+  secondsSinceConnection = (millis() - millisAtLastSerial) / 1000;
 }
